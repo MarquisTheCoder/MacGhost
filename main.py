@@ -18,6 +18,8 @@ import os
 #a mac and an internet connection to route all outgoing and incoming traffic through the 
 #tor routing service
 
+
+
 def main():
     if os.geteuid() != 0:
          sys.exit("\nOnly root can run this script\n") 
