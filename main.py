@@ -4,7 +4,7 @@ from commands import optHandler
 import webview
 import sys
 import os
-
+import time
 
 #Written by: Deshawn Marquis Williams
     #AKA: @MarquisThecoder on github
@@ -20,12 +20,20 @@ import os
 
 
 
+def load_html(window):
+    time.sleep(5)
+    indexFile = open("index.html", "r")
+    indexPage = indexFile.readlines()
+    window.load_html(indexPage)
+
 def main():
-    if os.geteuid() != 0:
-         sys.exit("\nOnly root can run this script\n") 
+    # print("Working dir:", os.getcwd())
+    f = open("index.html",)
+    indexPage = f.readlines()
+    f.close()
 
-    webview.create_window('MacGhost - tor routing application', width = 800, height = 500)
-    webview.start()
+    window = webview.create_window('Main page', html=indexPage)
+    webview.start(load_html, window)
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    main() 
