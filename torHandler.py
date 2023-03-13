@@ -11,12 +11,18 @@ class TorHandler:
 
     #tor configuration to be written to torrc
     torrcConfiguration: str = """
+    SOCKSPort {}
+    SOCKSPort 192.168.0.1:9100 
+    RunAsDaemon 1    
+    """.format(__defaultport)    
 
-    """    
     #setting the tor port to change torrc file
     def setPort(portNumber) -> None:
         TorHandler.torPort = portNumber
 
+    def getPort() -> int: 
+        return TorHandler.torPort
+    
     #starting tor as a service with brew
     def startTor() -> int:
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
