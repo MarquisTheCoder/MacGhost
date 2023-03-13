@@ -1,8 +1,19 @@
 
+import coloredlogs, logging
 from pathlib import Path
 import subprocess
 
+logger = logging.getLogger(__name__)
 
+# By default the install() function installs a handler on the root logger,
+# this means that log messages from your code and log messages from the
+# libraries that you use will all show up on the terminal.
+coloredlogs.install(level='DEBUG')
+
+# If you don't want to see log messages from libraries, you can pass a
+# specific logger object to the install() function. In this case only log
+# messages originating from that logger will show up on the terminal.
+coloredlogs.install(level='DEBUG', logger=logger)
 
 class TorHandler:
 
@@ -25,11 +36,14 @@ class TorHandler:
     
     #starting tor as a service with brew
     def startTor() -> int:
+        logger.info("[+] Starting the Tor Daemon process")
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
+        logger.info("[+] {}".format(torCommand.returncode))
         return torCommand.returncode
 
     #start running traffic through tor network
     def configureSocks5proxy() -> int:
+        print()
         startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "))
         finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "))
         return startConfig.returncode and finishConfig.returncode

@@ -27,7 +27,6 @@ def load_html(window):
 
 def main():
     TorHandler.startTor()
-    TorHandler.checkIfTorIsWorking()
     pass
     # # print("Working dir:", os.getcwd())
     # f = open("index.html",)
