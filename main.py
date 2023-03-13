@@ -1,7 +1,6 @@
 
 from torHandler import TorHandler
 from commands import optHandler
-import webview
 import sys
 import os
 import time
@@ -27,13 +26,16 @@ def load_html(window):
     window.load_html(indexPage)
 
 def main():
-    # print("Working dir:", os.getcwd())
-    f = open("index.html",)
-    indexPage = f.readlines()
-    f.close()
+    TorHandler.startTor()
+    TorHandler.checkIfTorIsWorking()
+    pass
+    # # print("Working dir:", os.getcwd())
+    # f = open("index.html",)
+    # indexPage = f.readlines()
+    # f.close()
 
-    window = webview.create_window('Main page', html=indexPage)
-    webview.start(load_html, window)
+    # window = webview.create_window('Main page', html=indexPage)
+    # webview.start(load_html, window)
 
 if __name__ == '__main__':
     main() 
