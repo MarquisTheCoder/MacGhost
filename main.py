@@ -29,7 +29,7 @@ def main():
     TorHandler.startTor()
     TorHandler.configureSocks5proxy()
 
-    # # print("Working dir:", os.getcwd())
+     # print("Working dir:", os.getcwd())
     # f = open("index.html",)
     # indexPage = f.readlines()
     # f.close()

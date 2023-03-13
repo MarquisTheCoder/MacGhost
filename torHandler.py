@@ -40,7 +40,7 @@ class TorHandler:
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
 
         if(torCommand.returncode):
-            logger.info("[+] Tor daemon started successfully")
+            logger.info("[+] Tor daemon started successfully!")
         else:
             logger.info("[-] Tor daemon failed to start")
 
@@ -51,6 +51,8 @@ class TorHandler:
         logger.info("[+] Starting to configure the network firewall")
         startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "))
         finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "))
+        print(startConfig.returncode)
+        print(finishConfig.returncode)
         if(startConfig.returncode and finishConfig.returncode):
             logger.info("[+] Network firewall setup completed successfully")
         else:
