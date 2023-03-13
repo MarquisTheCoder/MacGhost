@@ -38,14 +38,24 @@ class TorHandler:
     def startTor() -> int:
         logger.info("[+] Starting the Tor Daemon process")
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
-        logger.info("[+] {}".format(torCommand.returncode))
+
+        if(torCommand.returncode):
+            logger.info("[+] Tor daemon started successfully")
+        else:
+            logger.info("[-] Tor daemon failed to start")
+
         return torCommand.returncode
 
     #start running traffic through tor network
     def configureSocks5proxy() -> int:
-        print()
+        logger.info("[+] Starting to configure the network firewall")
         startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "))
         finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "))
+        if(startConfig.returncode and finishConfig.returncode):
+            logger.info("[+] Network firewall setup completed successfully")
+        else:
+            logger.info("[-] Network firewall could not be setup")
+
         return startConfig.returncode and finishConfig.returncode
 
     ############################# Curently working here

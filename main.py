@@ -27,7 +27,8 @@ def load_html(window):
 
 def main():
     TorHandler.startTor()
-    pass
+    TorHandler.configureSocks5proxy()
+
     # # print("Working dir:", os.getcwd())
     # f = open("index.html",)
     # indexPage = f.readlines()
