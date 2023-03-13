@@ -49,14 +49,16 @@ class TorHandler:
     #start running traffic through tor network
     def configureSocks5proxy() -> int:
         logger.info("[+] Starting to configure the network firewall")
-        startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "))
-        finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "))
-        print(startConfig.returncode)
-        print(finishConfig.returncode)
-        if(startConfig.returncode and finishConfig.returncode):
-            logger.info("[+] Network firewall setup completed successfully")
+        startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "), capture_output=True, text=True)
+        finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "), capture_output=True, text=True)
+
+       
+        if(startConfig.returncode == 0 and finishConfig.returncode == 0 ):
+            logger.info("[+] Network firewall setup completed successfully!")
         else:
             logger.info("[-] Network firewall could not be setup")
+            print(startConfig.stderr)
+            print(finishConfig.stderr)
 
         return startConfig.returncode and finishConfig.returncode
 
