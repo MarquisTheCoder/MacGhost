@@ -37,6 +37,7 @@ class TorHandler:
     #starting tor as a service with brew
     def startTor() -> int:
         logger.info("[+] Starting the Tor Daemon process")
+        askForPasswordUpfront: exec = subprocess.run("sudo -v".split(" "))
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
 
         if(torCommand.returncode):
@@ -57,6 +58,8 @@ class TorHandler:
             logger.info("[+] Network firewall setup completed successfully!")
         else:
             logger.info("[-] Network firewall could not be setup")
+            print(startConfig.returncode)
+            print(finishConfig.returncode)
             print(startConfig.stderr)
             print(finishConfig.stderr)
 
@@ -90,4 +93,4 @@ class TorHandler:
         #disable traffic running through tor first so no issues occur when tor is turned off
         turnOffTorFirewall: exec = subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi off".split(" "))
         #completely turn off the tor daemon
-        turnOffTor: exec = subprocess.run("brew services tor stop".split(" "))
+        turnOffTor: exec = subprocess.run("brew services stop tor".split(" "))
