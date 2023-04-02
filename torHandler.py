@@ -52,7 +52,6 @@ class TorHandler:
         logger.info("[+] Starting to configure the network firewall")
         startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "), capture_output=True, text=True)
         finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "), capture_output=True, text=True)
-
        
         if(startConfig.returncode == 0 and finishConfig.returncode == 0 ):
             logger.info("[+] Network firewall setup completed successfully!")
