@@ -38,8 +38,11 @@ class TorHandler:
     def startTor() -> int:
         logger.info("[+] Starting the Tor Daemon process")
         askForPasswordUpfront: exec = subprocess.run("sudo -v".split(" "))
+
+        # starting the tor daemon to be run in the background
         torCommand: exec = subprocess.run("brew services start tor".split(" "))
 
+        #checking if the tor daemon started successfully
         if(torCommand.returncode):
             logger.info("[+] Tor daemon started successfully!")
         else:
@@ -47,12 +50,18 @@ class TorHandler:
 
         return torCommand.returncode
 
+
     #start running traffic through tor network
     def configureSocks5proxy() -> int:
         logger.info("[+] Starting to configure the network firewall")
+
+        #attempting to configure the network firewall to run through local proxy
         startConfig: exec = subprocess.run("sudo networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 9050 off".split(" "), capture_output=True, text=True)
+
+        # making sure that the network firewall is configured successfully and the wifi interface is up
         finishConfig: exec= subprocess.run("sudo networksetup -setsocksfirewallproxystate Wi-Fi on".split(" "), capture_output=True, text=True)
        
+       #checking the return codes of the commands above
         if(startConfig.returncode == 0 and finishConfig.returncode == 0 ):
             logger.info("[+] Network firewall setup completed successfully!")
         else:
@@ -65,6 +74,9 @@ class TorHandler:
         return startConfig.returncode and finishConfig.returncode
 
     ############################# Curently working here
+
+    # these commands will be used to configure the tor daemon
+    # and set a backup to the original torrc file
     def configureTorSettings() -> str:
         
         torrcFilePathOnMac: str = "/usr/local/etc/tor/torrc"

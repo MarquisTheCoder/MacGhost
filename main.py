@@ -1,4 +1,5 @@
 
+import signal
 from torHandler import TorHandler
 from commands import optHandler
 import sys
@@ -25,10 +26,25 @@ def load_html(window):
     indexPage = indexFile.readlines()
     window.load_html(indexPage)
 
+
+# root of the program
 def main():
-    TorHandler.startTor()
-    TorHandler.configureSocks5proxy()
-    # TorHandler.turnOffTor()
+
+    signal.signal(signal.SIGINT, TorHandler.turnOffTor)
+    signal.signal(signal.SIGTERM, TorHandler.turnOffTor)
+    signal.signal(signal.SIGQUIT, TorHandler.turnOffTor)
+    signal.signal(signal.SIGHUP, TorHandler.turnOffTor)
+    signal.signal(signal.SIGUSR1, TorHandler.turnOffTor)
+    signal.signal(signal.SIGSEGV, TorHandler.turnOffTor)
+    signal.signal(signal.SIGUSR2, TorHandler.turnOffTor)
+    signal.signal(signal.SIGPIPE, TorHandler.turnOffTor)
+    signal.signal(signal.SIGALRM, TorHandler.turnOffTor)
+    signal.signal(signal.SIGTERM, TorHandler.turnOffTor)
+    signal.signal(signal.SIGUSR1, TorHandler.turnOffTor)
+
+    # TorHandler.startTor()
+    # TorHandler.configureSocks5proxy()
+    TorHandler.turnOffTor()
      # print("Working dir:", os.getcwd())
     # f = open("index.html",)
     # indexPage = f.readlines()
